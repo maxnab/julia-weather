@@ -1,0 +1,33 @@
+.daily {
+  display: flex;
+  overflow: auto;
+
+  &-block {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 8px 4px;
+    margin-right: 10px;
+
+    &-time {
+      font-weight: 400;
+      font-size: 7px;
+      line-height: 8px;
+    }
+
+    &-temp {
+      font-weight: 700;
+      font-size: 7px;
+      line-height: 8px;
+    }
+
+    &-code {
+      img {
+        max-width: 24px;
+        max-height: 24px;
+      }
+    }
+  }
+}

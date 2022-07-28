@@ -1,0 +1,45 @@
+.current-weather {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+
+  &-info {
+    display: flex;
+    flex-direction: column;
+
+    &-temperature {
+      font-size: 43px;
+      line-height: 52px;
+    }
+
+    &-weathercode {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 17px;
+    }
+  }
+
+  img {
+    max-width: 80px;
+  }
+}
+
+.current-city {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 8px;
+
+  &-title {
+    color: #313341;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 6px;
+  }
+
+  &-date {
+    color: #9A938C;
+    font-size: 9px;
+  }
+}
