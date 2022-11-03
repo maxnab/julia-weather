@@ -1,0 +1,29 @@
+.wrap {
+    position: fixed;
+    display: flex;
+    height: 48px;
+    width: 100vw;
+    padding: 15px;
+    background: #f8bd82;
+    justify-content: space-between;
+}
+
+.pagination {
+    display: flex;
+}
+
+.dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: black;
+    margin-right: 8px;
+}
+
+.dot-expanded {
+    height: 4px;
+    width: 17px;
+    left: nullpx;
+    top: nullpx;
+    border-radius: 2px;
+}

@@ -1,0 +1,26 @@
+.wrap {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 48px;
+}
+
+.first-page {
+  position: absolute;
+}
+
+.second-page {
+  position: absolute;
+  left: 100vw;
+}
+
+.sr {
+    transform: translate(0);
+    transition: all .300s ease-in;
+  }
+  
+  .sl {
+    transform: translate(-100vw);
+    transition: all .300s ease-in;
+  }
+  

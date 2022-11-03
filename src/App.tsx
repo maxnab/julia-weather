@@ -1,19 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState, useRef, TouchEvent } from 'react';
 import './reset.css';
 import './main.css';
-import axios from 'axios';
-import format from 'date-fns/format';
+import cn from 'classnames';
+import Week from './pages/Week/Week';
+import Daily from './pages/Daily/Daily';
+import Page from './components/wrappers/Page/Page';
 import styles from './App.module.scss';
-import { weatherCodes, weatherCodesImages } from './weatherCodes';
-import WeatherLine from './components/Block';
-import { closestIndexTo, parseISO } from 'date-fns';
-import Line from './components/Line';
-import PeriodSelector from './components/PeriodSelector';
-import Header from './components/Header';
-import { Route, Routes } from 'react-router-dom';
-import Week from './pages/Week';
-import Page from './components/wrappers/Page';
-import Daily from './pages/Daily';
+import Header from './components/Header/Header';
 
 export interface Option {
   label: string;
@@ -22,35 +15,51 @@ export interface Option {
 
 export type Options = Option[];
 
-export interface City {
-  admin1: string;
-  admin1_id: number;
-  country: string;
-  country_code: string;
-  country_id: number;
-  elevation: number;
-  feature_code: string;
-  id: number;
-  latitude: number;
-  longitude: number;
-  name: string;
-  population: number;
-  ranking: number;
-  timezone: string;
+interface MainWeather {
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  pressure: number;
+  sea_level: number;
+  grnd_level: number;
+  humidity: number;
+  temp_kf: number;
 }
 
-export type Cities = City[];
+interface Weather {
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+  day: { icon: string, description: string };
+}
+
+interface Clouds {
+  all: number;
+}
+
+interface Wind {
+  speed: number;
+  deg: number;
+  gust: number;
+}
+
+interface Sys {
+  pod: string;
+}
 
 export interface HourlyWeather {
-  code: number;
-  temp: number;
-  time: string;
-}
-
-export interface Weather {
-  data: {
-    hourly: HourlyWeather;
-  };
+  id: number;
+  dt: number;
+  main: MainWeather;
+  weather: Weather[];
+  clouds: Clouds;
+  wind: Wind;
+  visibility: number;
+  pop: number;
+  sys: Sys;
+  dt_txt: string;
 }
 
 export const initialCity = {
@@ -59,22 +68,72 @@ export const initialCity = {
 };
 
 export interface CurrentWeather {
-  temperature: number;
-  time: string;
-  weathercode: number;
-  winddirection: 3;
-  windspeed: string;
-  humidity: string;
+  feels_like: number;
+  grnd_level: number;
+  humidity: number;
+  pressure: number;
+  sea_level: number;
+  temp: number;
+  temp_max: number;
+  temp_min: number;
+  description: string;
+  icon: string;
+  speed: string;
   precipitation: string;
+  clouds: string;
+}
+
+const enum SwipeDirection {
+  LEFT = 1,
+  RIGHT,
 }
 
 const App: FC = () => {
-  //
+  const swipeRef = useRef<number | null>(null);
+  const [swipe, setSwipe] = useState(-0);
+
+  const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
+    swipeRef.current = e.targetTouches[0].clientX;
+  };
+
+  const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
+    const swipeEndPosition = e.changedTouches[0].clientX;
+    if (swipeRef.current && swipeRef.current - swipeEndPosition > 150) {
+      swipeRef.current = 0;
+      setSwipe(SwipeDirection.LEFT);
+    }
+    if (swipeRef.current && swipeRef.current - swipeEndPosition <= 150) {
+      swipeRef.current = 0;
+      setSwipe(SwipeDirection.RIGHT);
+    }
+  };
+
+  const swipeClassName = cn(
+    styles.wrap,
+    { [styles.sl]: swipe === SwipeDirection.LEFT },
+    { [styles.sr]: swipe === SwipeDirection.RIGHT },
+  );
+
   return (
-    <Routes>
-      <Route path="/" element={<Daily />} />
-      <Route path="/week" element={<Week />} />
-    </Routes>
+    <div>
+      <Header />
+      <div
+        className={swipeClassName}
+        onTouchStart={onTouchStart}
+        onTouchEnd={onTouchEnd}
+      >
+        <div className={styles['first-page']}>
+          <Page>
+            <Daily />
+          </Page>
+        </div>
+        <div className={styles['second-page']}>
+          <Page>
+            <Week />
+          </Page>
+        </div>
+      </div>
+    </div>
   );
 };
 

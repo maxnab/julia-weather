@@ -1,0 +1,39 @@
+.wrap {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 8px;
+  color: #303345;
+  height: 38px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 11px;
+  background: rgba(255, 255, 255, 0.36);
+  border: 0.5px solid rgba(255, 255, 255, 0.5);
+  border-radius: 10px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+
+  .img {
+    background: rgba(255, 255, 255, 0.9);    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0px 9px 10px -3px rgba(23, 126, 37, 0.15), 0px 0px 10px rgba(0, 0, 0, 0.07);
+
+    img {
+      max-width: 20px;
+      max-height: 20px;
+    }
+  }
+
+  span {
+    text-transform: capitalize;
+    margin-left: 10px;
+  }
+}
