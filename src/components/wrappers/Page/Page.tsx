@@ -12,4 +12,4 @@ const Page: FC<Props> = ({ children }) => (
   </div>
 );
 
-export default Page;
+export { Page };

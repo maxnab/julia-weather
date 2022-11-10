@@ -1,140 +1,36 @@
-import React, { FC, useState, useRef, TouchEvent } from 'react';
+import React, { FC } from 'react';
 import './reset.css';
 import './main.css';
-import cn from 'classnames';
-import Week from './pages/Week/Week';
-import Daily from './pages/Daily/Daily';
-import Page from './components/wrappers/Page/Page';
-import styles from './App.module.scss';
-import Header from './components/Header/Header';
+import { Route, Routes } from 'react-router-dom';
+import { Pages } from './pages/Pages';
 
-export interface Option {
-  label: string;
-  value: string;
-}
+// var hue = 30 + 240 * (30 - t) / 60
+// var F = function(t)
+// {
+//   // Map the temperature to a 0-1 range
+//   var a = (t + 30)/60;
+//   a = (a < 0) ? 0 : ((a > 1) ? 1 : a);
 
-export type Options = Option[];
+//   // Scrunch the green/cyan range in the middle
+//   var sign = (a < .5) ? -1 : 1;
+//   a = sign * Math.pow(2 * Math.abs(a - .5), .35)/2 + .5;
 
-interface MainWeather {
-  temp: number;
-  feels_like: number;
-  temp_min: number;
-  temp_max: number;
-  pressure: number;
-  sea_level: number;
-  grnd_level: number;
-  humidity: number;
-  temp_kf: number;
-}
+//   // Linear interpolation between the cold and hot
+//   var h0 = 259;
+//   var h1 = 12;
+//   var h = (h0) * (1 - a) + (h1) * (a);
 
-interface Weather {
-  id: number;
-  main: string;
-  description: string;
-  icon: string;
-  day: { icon: string, description: string };
-}
-
-interface Clouds {
-  all: number;
-}
-
-interface Wind {
-  speed: number;
-  deg: number;
-  gust: number;
-}
-
-interface Sys {
-  pod: string;
-}
-
-export interface HourlyWeather {
-  id: number;
-  dt: number;
-  main: MainWeather;
-  weather: Weather[];
-  clouds: Clouds;
-  wind: Wind;
-  visibility: number;
-  pop: number;
-  sys: Sys;
-  dt_txt: string;
-}
-
-export const initialCity = {
-  label: 'Moscow',
-  value: 'latitude=52.52&longitude=13.41',
-};
-
-export interface CurrentWeather {
-  feels_like: number;
-  grnd_level: number;
-  humidity: number;
-  pressure: number;
-  sea_level: number;
-  temp: number;
-  temp_max: number;
-  temp_min: number;
-  description: string;
-  icon: string;
-  speed: string;
-  precipitation: string;
-  clouds: string;
-}
-
-const enum SwipeDirection {
-  LEFT = 1,
-  RIGHT,
-}
-
-const App: FC = () => {
-  const swipeRef = useRef<number | null>(null);
-  const [swipe, setSwipe] = useState(-0);
-
-  const onTouchStart = (e: TouchEvent<HTMLDivElement>) => {
-    swipeRef.current = e.targetTouches[0].clientX;
-  };
-
-  const onTouchEnd = (e: TouchEvent<HTMLDivElement>) => {
-    const swipeEndPosition = e.changedTouches[0].clientX;
-    if (swipeRef.current && swipeRef.current - swipeEndPosition > 150) {
-      swipeRef.current = 0;
-      setSwipe(SwipeDirection.LEFT);
+//   return pusher.color("hsv", h, 75, 90).hex6();
+// };
+const App: FC = () => (
+  <Routes>
+    <Route
+      path="/app"
+      element={
+        <Pages />
     }
-    if (swipeRef.current && swipeRef.current - swipeEndPosition <= 150) {
-      swipeRef.current = 0;
-      setSwipe(SwipeDirection.RIGHT);
-    }
-  };
+    />
+  </Routes>
+);
 
-  const swipeClassName = cn(
-    styles.wrap,
-    { [styles.sl]: swipe === SwipeDirection.LEFT },
-    { [styles.sr]: swipe === SwipeDirection.RIGHT },
-  );
-
-  return (
-    <div>
-      <Header />
-      <div
-        className={swipeClassName}
-        onTouchStart={onTouchStart}
-        onTouchEnd={onTouchEnd}
-      >
-        <div className={styles['first-page']}>
-          <Page>
-            <Daily />
-          </Page>
-        </div>
-        <div className={styles['second-page']}>
-          <Page>
-            <Week />
-          </Page>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-export default App;
+export { App };

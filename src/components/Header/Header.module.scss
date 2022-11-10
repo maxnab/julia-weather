@@ -10,20 +10,46 @@
 
 .pagination {
     display: flex;
+    align-items: center;
 }
 
 .dot {
-    width: 5px;
-    height: 5px;
-    border-radius: 50%;
     background: black;
     margin-right: 8px;
+    width: 5px;
+    height: 5px;
 }
 
 .dot-expanded {
-    height: 4px;
-    width: 17px;
-    left: nullpx;
-    top: nullpx;
-    border-radius: 2px;
+    animation: expand .3s linear forwards;
+}
+
+.dot-collapsed {
+    animation: collapse .3s linear forwards;
+}
+
+@keyframes expand {
+    from {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+    }
+
+    to {
+        width: 17px;
+        border-radius: 2px;    
+    }
+}
+
+@keyframes collapse {
+    from {
+        width: 17px;
+        border-radius: 2px;    
+    }
+
+    to {
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+    }
 }

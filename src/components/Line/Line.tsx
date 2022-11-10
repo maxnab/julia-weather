@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import styles from './Line.module.scss';
-import { HourlyWeather } from '../../App';
+import type { HourlyWeather } from '../../types/interfaces/hourlyWeather';
 
 interface Props {
   weather: HourlyWeather[];
@@ -28,4 +28,4 @@ const Line: FC<Props> = ({ weather }) => (
     ))}
   </div>
 );
-export default Line;
+export { Line };

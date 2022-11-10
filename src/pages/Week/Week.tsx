@@ -1,37 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import styles from './Week.module.scss';
 import windIcon from '../../assets/icons/wind.svg';
 import humidityIcon from '../../assets/icons/humidity.svg';
 
-const tomorrowStatus = [
-  {
-    name: 'wind',
-    icon: windIcon,
-  },
-  {
-    name: 'humidity',
-    icon: humidityIcon,
-  },
-];
+// 1M7CwWRJiJBt9ktm6GSBtXw06OJ6QZGM
+const Week = () => {
+  const [webcams, setWebcams] = useState([]);
 
-const Week = () => (
-  <div className={styles.tomorrow}>
-    <div className={styles['tomorrow-top']}>
-      <h3>Tomorrow</h3>
-      <div className={styles['tomorrow-top-degrees']}>
-        <span>22</span>
-        {/* <img src={weatherCodesImages[0]} alt={weatherCodes[0]} /> */}
-      </div>
-    </div>
-    <div className={styles['tomorrow-bottom']}>
-      {tomorrowStatus.map((status) => (
-        <div key={status.name} className={styles['tomorrow-bottom-icon']}>
-          <img src={status.icon} alt={status.name} />
-          <span>info</span>
-        </div>
-      ))}
-    </div>
-  </div>
-);
+  useEffect(() => {
+    axios.get('https://api.windy.com/api/webcams/v2/?key=1M7CwWRJiJBt9ktm6GSBtXw06OJ6QZGM').then((response) => {
+      setWebcams(response.data);
+    });
+  }, []);
 
-export default Week;
+  return (
+
+    <div>
+      {JSON.stringify(webcams)}
+    </div>
+  );
+};
+
+export { Week };

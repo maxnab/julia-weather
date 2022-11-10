@@ -29,4 +29,4 @@ const WeatherLine: FC<Props> = ({ name, value }) => (
   </div>
 );
 
-export default WeatherLine;
+export { WeatherLine };

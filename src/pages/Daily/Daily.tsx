@@ -2,11 +2,14 @@ import React, { useEffect, useState } from 'react';
 import format from 'date-fns/format';
 import axios from 'axios';
 import styles from './Daily.module.scss';
-import WeatherLine from '../../components/Block/Block';
-import PeriodSelector from '../../components/PeriodSelector/PeriodSelector';
-import Line from '../../components/Line/Line';
-import { CurrentWeather, HourlyWeather, initialCity, Option } from '../../App';
-import { units } from '../../units';
+import { WeatherLine } from '../../components/Block/Block';
+import { PeriodSelector } from '../../components/PeriodSelector/PeriodSelector';
+import { Line } from '../../components/Line/Line';
+import { units } from '../../variables/units';
+import type { Option } from '../../types/interfaces/option';
+import type { HourlyWeather } from '../../types/interfaces/hourlyWeather';
+import type { CurrentWeather } from '../../types/interfaces/currentWeather';
+import { initialCity } from '../../variables/initialCity';
 
 interface Coords {
   latitude: number;
@@ -36,8 +39,6 @@ const selectedUnit = 'metric';
 
 const Daily = () => {
   const [city, setCity] = useState<Option>(initialCity);
-
-  // eslint-disable-next-line no-unused-vars
   const [coords, setCoords] = useState<Coords>(initialCoords);
   const [cityWeather, setCityWeather] = useState<HourlyWeather[]>([]);
   const [currentWeather, setCurrentWeather] = useState<CurrentWeather>(initialWeather);
@@ -112,4 +113,4 @@ const Daily = () => {
   );
 };
 
-export default Daily;
+export { Daily };
