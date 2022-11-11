@@ -15,6 +15,7 @@ const Line: FC<Props> = ({ weather }) => (
   <div className={styles.daily}>
     {weather.map((day) => (
       <div key={day.id} className={styles['daily-block']}>
+        {JSON.stringify(day.id)}
         <span className={styles['daily-block-time']}>{getTimeCode(day.dt)}</span>
         <div className={styles['daily-block-code']}>
           <img src={`/src/assets/weather_icons/${day.weather[0].icon}.png`} alt="day.weather[0].day.description" />
@@ -28,4 +29,5 @@ const Line: FC<Props> = ({ weather }) => (
     ))}
   </div>
 );
+
 export { Line };

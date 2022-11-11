@@ -1,0 +1,25 @@
+.wrap {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    color: #303345;
+    margin-bottom: 5px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 11px;
+    background: rgba(255, 255, 255, 0.36);
+    border: 0.5px solid rgba(255, 255, 255, 0.5);
+    border-radius: 10px;
+}
+
+.cameras-list {
+    overflow: auto;
+    height: 60vh;
+}
+
+embed {
+    margin-bottom: 15px;
+}

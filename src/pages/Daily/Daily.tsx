@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import format from 'date-fns/format';
 import axios from 'axios';
 import styles from './Daily.module.scss';
@@ -10,12 +10,7 @@ import type { Option } from '../../types/interfaces/option';
 import type { HourlyWeather } from '../../types/interfaces/hourlyWeather';
 import type { CurrentWeather } from '../../types/interfaces/currentWeather';
 import { initialCity } from '../../variables/initialCity';
-
-interface Coords {
-  latitude: number;
-  longitude: number;
-  cityName: string;
-}
+import { Coords } from '../../types/interfaces/coords';
 
 const initialWeather = {
   feels_like: 0,
@@ -33,26 +28,20 @@ const initialWeather = {
   clouds: '',
 };
 
-const initialCoords = { latitude: -0, longitude: -0, cityName: '' };
-
 const selectedUnit = 'metric';
 
-const Daily = () => {
+interface Props {
+  coords?: Coords;
+}
+
+const Daily: FC<Props> = ({ coords }) => {
   const [city, setCity] = useState<Option>(initialCity);
-  const [coords, setCoords] = useState<Coords>(initialCoords);
   const [cityWeather, setCityWeather] = useState<HourlyWeather[]>([]);
   const [currentWeather, setCurrentWeather] = useState<CurrentWeather>(initialWeather);
 
   useEffect(() => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location) => {
-        const { latitude, longitude } = location.coords;
-        setCoords({ latitude, longitude, cityName: '' });
-      });
-    }
-  }, []);
+    if (!coords) return;
 
-  useEffect(() => {
     axios
       .get('https://api.openweathermap.org/data/2.5/weather', {
         params: {
@@ -82,7 +71,7 @@ const Daily = () => {
         const weatherByPeriod = data.list.slice(0, 8);
         setCityWeather(weatherByPeriod);
       });
-  }, [coords.latitude, coords.longitude]);
+  }, [coords?.latitude, coords?.longitude]);
 
   return (
     <div>
