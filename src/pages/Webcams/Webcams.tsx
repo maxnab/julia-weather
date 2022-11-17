@@ -18,7 +18,7 @@ const Webcams: FC<Props> = ({ coords }) => {
 
     axios.get<WebcamResponse>(`https://api.windy.com/api/webcams/v2/list/nearby=${coords.latitude},${coords.longitude},15?key=1M7CwWRJiJBt9ktm6GSBtXw06OJ6QZGM&show=webcams:player`).then(({ data }) => {
       const { webcams } = data.result;
-      const availableCam = webcams.find((cam) => cam.player.lifetime.available);
+      const availableCam = webcams.find((cam) => cam.player.live.available);
       setAllWebcams(webcams);
       setActiveCam(availableCam);
     });
@@ -30,7 +30,7 @@ const Webcams: FC<Props> = ({ coords }) => {
 
   return (
     <>
-      {activeCam ? <embed src={activeCam.player.live.embed} width="100%" height="50%" /> : <span>Camera not available</span>}
+      {activeCam ? <embed src={activeCam.player.day.embed} width="100%" height="50%" /> : <span>Camera not available</span>}
       <div className={styles['cameras-list']}>
         {allWebcams.map((cam) => (
           <div key={cam.id} className={styles.wrap}>
