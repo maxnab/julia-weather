@@ -20,6 +20,7 @@ const pages: IPage[] = [
     position: 0,
     component: (props) => (
       <Daily
+        ref={props.ref}
         coords={props.coords}
         city={props.city}
         currentWeather={props.currentWeather}

@@ -20,6 +20,9 @@ const Pages: FC = () => {
   const currentPage = searchParams.get('currentPage');
 
   const swipeRef = useRef<number | null>(null);
+  const disableSwipeRef = useRef<HTMLDivElement>(null);
+
+  console.log('s', disableSwipeRef.current?.id);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -77,7 +80,12 @@ const Pages: FC = () => {
     const scrollLeft = swipeRef.current && swipeRef.current - swipeEndPosition >= 150;
     const scrollRight = swipeRef.current && swipeRef.current - swipeEndPosition <= -150;
 
-    if (scrollLeft && transition !== pages.at(-1)?.position) {
+    const isScrollRightAvailable = scrollLeft && transition !== pages.at(-1)?.position
+     && !disableSwipeRef.current?.contains(e.target);
+
+    const isScrollLeftAvailable = scrollRight && transition !== pages.at(0)?.position && !disableSwipeRef.current?.contains(e.target);
+
+    if (isScrollRightAvailable) {
       swipeRef.current = 0;
 
       setTransiton((prev) => {
@@ -88,7 +96,7 @@ const Pages: FC = () => {
       });
     }
 
-    if (scrollRight && transition !== pages.at(0)?.position) {
+    if (isScrollLeftAvailable) {
       swipeRef.current = 0;
 
       setTransiton((prev) => {
@@ -128,7 +136,13 @@ const Pages: FC = () => {
         {
           pages.map((page) => (
             <div className={styles.page} style={pagePositionStyle(page.position)}>
-              {page.component({ coords, city, currentWeather, onCitySelect: selectCity })}
+              {page.component({
+                coords,
+                city,
+                currentWeather,
+                onCitySelect: selectCity,
+                ref: disableSwipeRef,
+              })}
             </div>
           ))
         }

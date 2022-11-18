@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, forwardRef, ForwardRefExoticComponent, RefAttributes } from 'react';
 import styles from './Line.module.scss';
 import type { IHourlyWeather } from '../../types/interfaces/iHourlyWeather';
 
@@ -11,11 +11,10 @@ const getTimeCode = (timestamp: number) => {
   return date.slice(0, 2).join(':');
 };
 
-const Line: FC<Props> = ({ weather }) => (
-  <div className={styles.daily}>
+const Line = forwardRef<HTMLDivElement, Props>(({ weather }, ref) => (
+  <div id="not-swipable" ref={ref} className={styles.daily}>
     {weather.map((day) => (
       <div key={day.id} className={styles['daily-block']}>
-        {JSON.stringify(day.id)}
         <span className={styles['daily-block-time']}>{getTimeCode(day.dt)}</span>
         <div className={styles['daily-block-code']}>
           <img src={`/src/assets/weather_icons/${day.weather[0].icon}.png`} alt="day.weather[0].day.description" />
@@ -28,6 +27,6 @@ const Line: FC<Props> = ({ weather }) => (
       </div>
     ))}
   </div>
-);
+));
 
 export { Line };

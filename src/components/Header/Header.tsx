@@ -4,13 +4,8 @@ import { useSearchParams } from 'react-router-dom';
 import searchIcon from '../../assets/icons/search.svg';
 import menuIcon from '../../assets/icons/menu.svg';
 import styles from './Header.module.scss';
-import { IPage } from '../../pages/Pages';
 import { getColor } from '../../functions/getColor';
-
-enum Page {
-  DAILY = 'daily',
-  WEEKLY = 'weekly'
-}
+import { IPage } from '../../types/interfaces/iPage';
 
 interface Props {
   temperature?: number;

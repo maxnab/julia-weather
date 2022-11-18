@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, forwardRef, useEffect, useState } from 'react';
 import format from 'date-fns/format';
 import axios from 'axios';
 import styles from './Daily.module.scss';
@@ -21,8 +21,10 @@ interface Props {
   coords?: ICoords;
 }
 
-const Daily: FC<Props> = ({ coords, city, currentWeather }) => {
+const Daily = forwardRef<HTMLDivElement, Props>(({ coords, city, currentWeather }, ref) => {
   const [cityWeather, setCityWeather] = useState<IHourlyWeather[]>([]);
+
+  console.log('d', ref);
 
   useEffect(() => {
     if (!coords) return;
@@ -70,10 +72,10 @@ const Daily: FC<Props> = ({ coords, city, currentWeather }) => {
           <WeatherLine name="clouds" value={`${currentWeather.clouds} ${units[selectedUnit].clouds}`} />
         </div>
         <PeriodSelector />
-        <Line weather={cityWeather} />
+        <Line ref={ref} weather={cityWeather} />
       </Content>
     </Page>
   );
-};
+});
 
 export { Daily };
