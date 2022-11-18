@@ -1,4 +1,4 @@
-interface CurrentWeather {
+interface ICurrentWeather {
     feels_like: number;
     grnd_level: number;
     humidity: number;
@@ -14,4 +14,4 @@ interface CurrentWeather {
     clouds: string;
 }
 
-export type { CurrentWeather };
+export type { ICurrentWeather };

@@ -3,6 +3,10 @@
   overflow: auto;
   padding-top: 10px;
 
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  
   &-block {
     display: flex;
     align-items: center;
@@ -10,20 +14,22 @@
     border-radius: 20px;
     padding: 8px 4px;
     margin-right: 10px;
-    width: 32px;
-    height: 56px;
+    min-width: 64px;
+    height: 112px;
     background: rgba(255, 255, 255, 0.3);
+    justify-content: space-around;
+
 
     &-time {
       font-weight: 400;
-      font-size: 7px;
+      font-size: 14px;
       line-height: 8px;
       color: #9C9EAA;
     }
 
     &-temp {
       font-weight: 700;
-      font-size: 7px;
+      font-size: 14px;
       line-height: 8px;
       text-align: center;
       color: #303345;
@@ -37,8 +43,8 @@
       width: 24px;
       height: 24px;
       img {
-        max-width: 20px;
-        max-height: 20px;
+        max-width: 50px;
+        max-height: 50px;
       }
     }
   }

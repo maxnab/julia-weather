@@ -1,35 +1,19 @@
 import axios, { AxiosResponse } from 'axios';
 import React, { ChangeEvent, FC, useState } from 'react';
-import { Button } from '../../components/wrappers/Page/Button/Button';
-import { Coords } from '../../types/interfaces/coords';
+import { Button } from '../../components/wrappers/Button/Button';
+import { ICoords } from '../../types/interfaces/iCoords';
+import { ICity } from '../../types/interfaces/iCity';
+import { ICityResponse } from '../../types/interfaces/iCityResponse';
 import styles from './Search.module.scss';
-
-export interface ICity {
-  admin1: string;
-  admin1_id: number;
-  country: string;
-  country_code: string;
-  country_id: number;
-  elevation: number;
-  feature_code: string;
-  id: number;
-  latitude: number;
-  longitude: number;
-  name: string;
-  population: number;
-  timezone: string;
-}
-
-interface ICityResponse {
-  generationtime_ms: number;
-  results: ICity[];
-}
+import { Content } from '../../components/wrappers/Content/Content';
+import { Page } from '../../components/wrappers/Page/Page';
 
 interface Props {
-  onCitySelect: (city: Coords) => void;
+  temperature?: number;
+  onCitySelect: (city: ICoords) => void;
 }
 
-const Search: FC<Props> = ({ onCitySelect }) => {
+const Search: FC<Props> = ({ onCitySelect, temperature }) => {
   const [city, setCity] = useState<string>('');
   const [citiesList, setCitiesList] = useState<ICity[]>([]);
 
@@ -45,29 +29,33 @@ const Search: FC<Props> = ({ onCitySelect }) => {
   const getCityLabel = (name: string, country: string) => `${name}, ${country}`;
 
   return (
-    <div className={styles.wrap}>
-      <input type="text" placeholder="Find city" value={city} onChange={handleSearch} />
-      {citiesList.length > 0
-        ? (
-          <div className={styles.list}>
-            {citiesList.map((cityOption) => (
-              <Button>
-                <button
-                  type="button"
-                  onClick={() => onCitySelect({ latitude: cityOption.latitude,
-                    longitude: cityOption.longitude,
-                    cityName: cityOption.name })}
-                >
-                  {getCityLabel(cityOption.name, cityOption.country)}
-                </button>
-              </Button>
-            ))}
-          </div>
-        )
-        : (
-          <span>Type city name to see list</span>
-        )}
-    </div>
+    <Page temperature={temperature}>
+      <Content>
+        <div className={styles.wrap}>
+          <input type="text" placeholder="Find city" value={city} onChange={handleSearch} />
+          {citiesList.length > 0
+            ? (
+              <div className={styles.list}>
+                {citiesList.map((cityOption) => (
+                  <Button>
+                    <button
+                      type="button"
+                      onClick={() => onCitySelect({ latitude: cityOption.latitude,
+                        longitude: cityOption.longitude,
+                        cityName: cityOption.name })}
+                    >
+                      {getCityLabel(cityOption.name, cityOption.country)}
+                    </button>
+                  </Button>
+                ))}
+              </div>
+            )
+            : (
+              <span>Type city name to see list</span>
+            )}
+        </div>
+      </Content>
+    </Page>
   );
 };
 

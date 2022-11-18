@@ -1,4 +1,4 @@
-interface MainWeather {
+interface IMainWeather {
     temp: number;
     feels_like: number;
     temp_min: number;
@@ -10,4 +10,4 @@ interface MainWeather {
     temp_kf: number;
   }
 
-export type { MainWeather };
+export type { IMainWeather };

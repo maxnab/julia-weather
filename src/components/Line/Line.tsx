@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
 import styles from './Line.module.scss';
-import type { HourlyWeather } from '../../types/interfaces/hourlyWeather';
+import type { IHourlyWeather } from '../../types/interfaces/iHourlyWeather';
 
 interface Props {
-  weather: HourlyWeather[];
+  weather: IHourlyWeather[];
 }
 
 const getTimeCode = (timestamp: number) => {

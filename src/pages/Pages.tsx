@@ -1,45 +1,18 @@
-import React, { FC, useState, useRef, TouchEvent, useEffect, CSSProperties, ReactNode } from 'react';
+import React, { FC, useState, useRef, TouchEvent, useEffect, CSSProperties } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { SwipeDirection } from '../types/enums/swipeDirection';
-import { Coords } from '../types/interfaces/coords';
-import { Webcams } from './Webcams/Webcams';
-import { Daily } from '../pages/Daily/Daily';
+import axios from 'axios';
 import { Page } from '../components/wrappers/Page/Page';
 import { Header } from '../components/Header/Header';
+import { pages } from './pagesVariables';
+import type { ICoords } from '../types/interfaces/iCoords';
 import styles from './Pages.module.scss';
-import { Search } from './Search/Search';
-
-interface PagesProps {
-  onCitySelect: (coords: Coords) => void;
-  coords?: Coords;
-}
-
-export interface IPage {
-  name: string;
-  position: number;
-  component: (props: PagesProps) => ReactNode;
-}
-
-const pages: IPage[] = [
-  {
-    name: 'search',
-    position: 100,
-    component: (props) => <Search onCitySelect={props.onCitySelect} />,
-  },
-  {
-    name: 'daily',
-    position: 0,
-    component: (props) => <Daily coords={props.coords} />,
-  },
-  {
-    name: 'webcams',
-    position: -100,
-    component: (props) => <Webcams coords={props.coords} />,
-  },
-];
+import { ICurrentWeather } from '../types/interfaces/iCurrentWeather';
+import { IOption } from '../types/interfaces/iOption';
 
 const Pages: FC = () => {
-  const [coords, setCoords] = useState<Coords | undefined>(undefined);
+  const [city, setCity] = useState<IOption | undefined>(undefined);
+  const [currentWeather, setCurrentWeather] = useState<ICurrentWeather | undefined>(undefined);
+  const [coords, setCoords] = useState<ICoords | undefined>(undefined);
   const [transition, setTransiton] = useState<number>(0);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -56,6 +29,25 @@ const Pages: FC = () => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (!coords) return;
+    axios
+      .get('https://api.openweathermap.org/data/2.5/weather', {
+        params: {
+          lat: coords.latitude,
+          lon: coords.longitude,
+          units: 'metric',
+          appid: '7eec0e6761b704245b20f20fb368b214',
+        },
+      })
+      .then(({ data }) => {
+        setCity({ label: data.name, value: data.name });
+        setCurrentWeather({
+          ...data.main, ...data.weather[0], ...data.wind, clouds: data.clouds.all,
+        });
+      });
+  }, [coords?.latitude, coords?.longitude]);
 
   useEffect(() => {
     switch (currentPage) {
@@ -108,7 +100,7 @@ const Pages: FC = () => {
     }
   };
 
-  const selectCity = (cityCoords: Coords) => {
+  const selectCity = (cityCoords: ICoords) => {
     setCoords(cityCoords);
   };
 
@@ -126,7 +118,7 @@ const Pages: FC = () => {
 
   return (
     <div>
-      <Header pages={pages} onSearchClick={swipeToSearchPage} />
+      <Header pages={pages} onSearchClick={swipeToSearchPage} temperature={currentWeather?.temp} />
       <div
         className={styles.wrap}
         style={transitionStyle}
@@ -136,9 +128,7 @@ const Pages: FC = () => {
         {
           pages.map((page) => (
             <div className={styles.page} style={pagePositionStyle(page.position)}>
-              <Page>
-                {page.component({ coords, onCitySelect: selectCity })}
-              </Page>
+              {page.component({ coords, city, currentWeather, onCitySelect: selectCity })}
             </div>
           ))
         }

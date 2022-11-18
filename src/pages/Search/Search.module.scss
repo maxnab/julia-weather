@@ -6,4 +6,16 @@
 .list {
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 110px);
+}
+
+input {
+    padding: 3px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    border: 0.5px solid rgba(255, 255, 255, 0.5);
+
+    &::placeholder {
+        padding-left: 5px;
+    }
 }

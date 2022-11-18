@@ -5,6 +5,7 @@ import searchIcon from '../../assets/icons/search.svg';
 import menuIcon from '../../assets/icons/menu.svg';
 import styles from './Header.module.scss';
 import { IPage } from '../../pages/Pages';
+import { getColor } from '../../functions/getColor';
 
 enum Page {
   DAILY = 'daily',
@@ -12,11 +13,12 @@ enum Page {
 }
 
 interface Props {
+  temperature?: number;
   pages: IPage[];
   onSearchClick: () => void;
 }
 
-const Header: FC<Props> = ({ pages, onSearchClick }) => {
+const Header: FC<Props> = ({ pages, onSearchClick, temperature }) => {
   const [searchParams] = useSearchParams();
 
   const currentPage = searchParams.get('currentPage');
@@ -31,8 +33,10 @@ const Header: FC<Props> = ({ pages, onSearchClick }) => {
     },
   );
 
+  const color = getColor(temperature ?? 25, -30, 40);
+
   return (
-    <div className={styles.wrap}>
+    <div className={styles.wrap} style={{ background: `rgba(${color.r}, ${color.g}, ${color.b}, 100)` }}>
       <button type="button" onClick={onSearchClick}>
         <img src={searchIcon} alt="search" />
       </button>

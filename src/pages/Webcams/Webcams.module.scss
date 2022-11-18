@@ -17,7 +17,7 @@
 
 .cameras-list {
     overflow: auto;
-    height: 60vh;
+    height: calc(100vh - 240px);
 }
 
 embed {

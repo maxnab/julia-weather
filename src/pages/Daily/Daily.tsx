@@ -6,57 +6,26 @@ import { WeatherLine } from '../../components/Block/Block';
 import { PeriodSelector } from '../../components/PeriodSelector/PeriodSelector';
 import { Line } from '../../components/Line/Line';
 import { units } from '../../variables/units';
-import type { Option } from '../../types/interfaces/option';
-import type { HourlyWeather } from '../../types/interfaces/hourlyWeather';
-import type { CurrentWeather } from '../../types/interfaces/currentWeather';
-import { initialCity } from '../../variables/initialCity';
-import { Coords } from '../../types/interfaces/coords';
-
-const initialWeather = {
-  feels_like: 0,
-  grnd_level: 0,
-  humidity: 0,
-  pressure: 0,
-  sea_level: 0,
-  temp: 0,
-  temp_max: 0,
-  temp_min: 0,
-  description: '',
-  icon: '',
-  speed: '',
-  precipitation: '',
-  clouds: '',
-};
+import type { IOption } from '../../types/interfaces/iOption';
+import type { IHourlyWeather } from '../../types/interfaces/iHourlyWeather';
+import type { ICurrentWeather } from '../../types/interfaces/iCurrentWeather';
+import type { ICoords } from '../../types/interfaces/iCoords';
+import { Content } from '../../components/wrappers/Content/Content';
+import { Page } from '../../components/wrappers/Page/Page';
 
 const selectedUnit = 'metric';
 
 interface Props {
-  coords?: Coords;
+  currentWeather?: ICurrentWeather;
+  city?: IOption;
+  coords?: ICoords;
 }
 
-const Daily: FC<Props> = ({ coords }) => {
-  const [city, setCity] = useState<Option>(initialCity);
-  const [cityWeather, setCityWeather] = useState<HourlyWeather[]>([]);
-  const [currentWeather, setCurrentWeather] = useState<CurrentWeather>(initialWeather);
+const Daily: FC<Props> = ({ coords, city, currentWeather }) => {
+  const [cityWeather, setCityWeather] = useState<IHourlyWeather[]>([]);
 
   useEffect(() => {
     if (!coords) return;
-
-    axios
-      .get('https://api.openweathermap.org/data/2.5/weather', {
-        params: {
-          lat: coords.latitude,
-          lon: coords.longitude,
-          units: 'metric',
-          appid: '7eec0e6761b704245b20f20fb368b214',
-        },
-      })
-      .then(({ data }) => {
-        setCity({ label: data.name, value: data.name });
-        setCurrentWeather({
-          ...data.main, ...data.weather[0], ...data.wind, clouds: data.clouds.all,
-        });
-      });
 
     axios
       .get('https://api.openweathermap.org/data/2.5/forecast', {
@@ -73,32 +42,37 @@ const Daily: FC<Props> = ({ coords }) => {
       });
   }, [coords?.latitude, coords?.longitude]);
 
+  if (!currentWeather) return null;
+  if (!city) return null;
+
   return (
-    <div>
-      <div className={styles['current-city']}>
-        <span className={styles['current-city-title']}>{city.label}</span>
-        <span className={styles['current-city-date']}>{format(Date.now(), 'EEE MMM dd')}</span>
-      </div>
-      <div className={styles['current-weather']}>
-        <img src={`/src/assets/weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
-        <div className={styles['current-weather-info']}>
-          <span className={styles['current-weather-info-temperature']}>
-            {Math.round(currentWeather.temp)}
-            <span className={styles['current-weather-info-temperature-mark']}>° C</span>
-          </span>
-          <span className={styles['current-weather-info-code']}>
-            {currentWeather.description}
-          </span>
+    <Page temperature={currentWeather.temp}>
+      <Content>
+        <div className={styles['current-city']}>
+          <span className={styles['current-city-title']}>{city.label}</span>
+          <span className={styles['current-city-date']}>{format(Date.now(), 'EEE MMM dd')}</span>
         </div>
-      </div>
-      <div>
-        <WeatherLine name="wind" value={`${currentWeather.speed} ${units[selectedUnit].wind}`} />
-        <WeatherLine name="humidity" value={`${currentWeather.humidity} ${units[selectedUnit].humidity}`} />
-        <WeatherLine name="clouds" value={`${currentWeather.clouds} ${units[selectedUnit].clouds}`} />
-      </div>
-      <PeriodSelector />
-      <Line weather={cityWeather} />
-    </div>
+        <div className={styles['current-weather']}>
+          <img src={`/src/assets/weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
+          <div className={styles['current-weather-info']}>
+            <span className={styles['current-weather-info-temperature']}>
+              {Math.round(currentWeather.temp)}
+              <span className={styles['current-weather-info-temperature-mark']}>° C</span>
+            </span>
+            <span className={styles['current-weather-info-code']}>
+              {currentWeather.description}
+            </span>
+          </div>
+        </div>
+        <div>
+          <WeatherLine name="wind" value={`${currentWeather.speed} ${units[selectedUnit].wind}`} />
+          <WeatherLine name="humidity" value={`${currentWeather.humidity} ${units[selectedUnit].humidity}`} />
+          <WeatherLine name="clouds" value={`${currentWeather.clouds} ${units[selectedUnit].clouds}`} />
+        </div>
+        <PeriodSelector />
+        <Line weather={cityWeather} />
+      </Content>
+    </Page>
   );
 };
 

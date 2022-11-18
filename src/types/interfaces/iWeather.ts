@@ -1,4 +1,4 @@
-interface Weather {
+interface IWeather {
     id: number;
     main: string;
     description: string;
@@ -6,4 +6,4 @@ interface Weather {
     day: { icon: string, description: string };
   }
 
-export type { Weather };
+export type { IWeather };

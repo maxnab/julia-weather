@@ -1,8 +1,10 @@
 .wrap {
+  display: flex;
+  justify-content: center;
   overflow: hidden;
-  background: linear-gradient(180deg, #f8be84 0%, #FEA14E 100%);
-  padding: 18px 16px;
-  min-height: 100vh;
   width: 100vw;
+  min-height: 100vh;
+  padding: 18px 16px;
+  // background: linear-gradient(180deg, #f8be84 0%, #FEA14E 100%);
 }
 
