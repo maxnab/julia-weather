@@ -28,11 +28,18 @@ const Header: FC<Props> = ({ pages, onSearchClick, temperature }) => {
     },
   );
 
+  const handleSearchClick = (): void => {
+    if (currentPage === 'search') return;
+    onSearchClick();
+  };
+
   const color = getColor(temperature ?? 25, -30, 40);
 
+  const backgroundStyle = { background: `rgba(${color.r}, ${color.g}, ${color.b}, 100)` };
+
   return (
-    <div className={styles.wrap} style={{ background: `rgba(${color.r}, ${color.g}, ${color.b}, 100)` }}>
-      <button type="button" onClick={onSearchClick}>
+    <header className={styles.wrap} style={backgroundStyle}>
+      <button type="button" onClick={handleSearchClick}>
         <img src={searchIcon} alt="search" />
       </button>
       <ul className={styles.pagination}>
@@ -43,7 +50,7 @@ const Header: FC<Props> = ({ pages, onSearchClick, temperature }) => {
       <button type="button">
         <img src={menuIcon} alt="menu" />
       </button>
-    </div>
+    </header>
   );
 };
 

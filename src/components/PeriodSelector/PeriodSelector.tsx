@@ -7,7 +7,7 @@ const PeriodSelector: FC = () => {
   const [_, setSearchParams] = useSearchParams();
 
   const navigateToWeeklyPage = (): void => {
-    setSearchParams('currentPage=weekly');
+    setSearchParams('currentPage=webcams');
   };
 
   return (
@@ -16,7 +16,7 @@ const PeriodSelector: FC = () => {
         <span>Next 24 hours</span>
       </div>
       <div>
-        <button type="button" onClick={navigateToWeeklyPage}>Next 7 days</button>
+        <button type="button" onClick={navigateToWeeklyPage}>Show webcams</button>
       </div>
     </div>
   );

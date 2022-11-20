@@ -19,12 +19,18 @@ interface Props {
   currentWeather?: ICurrentWeather;
   city?: IOption;
   coords?: ICoords;
+  onSwipeLeftButton?: () => void;
+  onSwipeRightButton?: () => void;
 }
 
-const Daily = forwardRef<HTMLDivElement, Props>(({ coords, city, currentWeather }, ref) => {
+const Daily = forwardRef<HTMLDivElement, Props>(({
+  coords,
+  city,
+  currentWeather,
+  onSwipeLeftButton,
+  onSwipeRightButton,
+}, ref) => {
   const [cityWeather, setCityWeather] = useState<IHourlyWeather[]>([]);
-
-  console.log('d', ref);
 
   useEffect(() => {
     if (!coords) return;
@@ -48,7 +54,11 @@ const Daily = forwardRef<HTMLDivElement, Props>(({ coords, city, currentWeather 
   if (!city) return null;
 
   return (
-    <Page temperature={currentWeather.temp}>
+    <Page
+      temperature={currentWeather.temp}
+      onSwipeLeftButton={onSwipeLeftButton}
+      onSwipeRightButton={onSwipeRightButton}
+    >
       <Content>
         <div className={styles['current-city']}>
           <span className={styles['current-city-title']}>{city.label}</span>

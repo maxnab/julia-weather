@@ -1,10 +1,18 @@
 .wrap {
   display: flex;
   justify-content: center;
-  overflow: hidden;
+  overflow: auto;
   width: 100vw;
-  min-height: 100vh;
+  min-height: calc(100vh - 48px);
   padding: 18px 16px;
-  // background: linear-gradient(180deg, #f8be84 0%, #FEA14E 100%);
 }
 
+.arrow {
+  padding: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .arrow {
+    display: none;
+  }
+}

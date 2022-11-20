@@ -10,9 +10,10 @@ import { Page } from '../../components/wrappers/Page/Page';
 interface Props {
   temperature?: number;
   coords?: ICoords;
+  onSwipeLeftButton?: () => void;
 }
 
-const Webcams: FC<Props> = ({ coords, temperature }) => {
+const Webcams: FC<Props> = ({ coords, temperature, onSwipeLeftButton }) => {
   const [allWebcams, setAllWebcams] = useState<IAllWebcams>([]);
   const [activeCam, setActiveCam] = useState<IWebcam | undefined>(undefined);
 
@@ -32,7 +33,10 @@ const Webcams: FC<Props> = ({ coords, temperature }) => {
   };
 
   return (
-    <Page temperature={temperature}>
+    <Page
+      temperature={temperature}
+      onSwipeLeftButton={onSwipeLeftButton}
+    >
       <Content>
         {activeCam
           ? (

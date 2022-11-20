@@ -11,9 +11,14 @@ import { Page } from '../../components/wrappers/Page/Page';
 interface Props {
   temperature?: number;
   onCitySelect: (city: ICoords) => void;
+  onSwipeRightButton?: () => void;
 }
 
-const Search: FC<Props> = ({ onCitySelect, temperature }) => {
+const Search: FC<Props> = ({
+  onCitySelect,
+  temperature,
+  onSwipeRightButton,
+}) => {
   const [city, setCity] = useState<string>('');
   const [citiesList, setCitiesList] = useState<ICity[]>([]);
 
@@ -29,7 +34,10 @@ const Search: FC<Props> = ({ onCitySelect, temperature }) => {
   const getCityLabel = (name: string, country: string) => `${name}, ${country}`;
 
   return (
-    <Page temperature={temperature}>
+    <Page
+      temperature={temperature}
+      onSwipeRightButton={onSwipeRightButton}
+    >
       <Content>
         <div className={styles.wrap}>
           <input type="text" placeholder="Find city" value={city} onChange={handleSearch} />

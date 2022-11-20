@@ -1,6 +1,7 @@
-const enum SwipeDirection {
-    LEFT = 1,
-    RIGHT,
+const enum PagePosition {
+    LEFT = 100,
+    CENTER = 0,
+    RIGHT = -100,
   }
 
-export { SwipeDirection };
+export { PagePosition };

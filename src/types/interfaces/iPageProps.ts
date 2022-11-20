@@ -9,6 +9,8 @@ interface IPagesProps {
     coords?: ICoords;
     city?: IOption;
     currentWeather?: ICurrentWeather;
+    onSwipeLeftButton?: () => void;
+    onSwipeRightButton?: () => void;
   }
 
 export type { IPagesProps };

@@ -1,13 +1,13 @@
 import React, { FC, useState, useRef, TouchEvent, useEffect, CSSProperties } from 'react';
-import { useSearchParams } from 'react-router-dom';
 import axios from 'axios';
-import { Page } from '../components/wrappers/Page/Page';
+import { useSearchParams } from 'react-router-dom';
 import { Header } from '../components/Header/Header';
 import { pages } from './pagesVariables';
 import type { ICoords } from '../types/interfaces/iCoords';
+import type { ICurrentWeather } from '../types/interfaces/iCurrentWeather';
+import type { IOption } from '../types/interfaces/iOption';
 import styles from './Pages.module.scss';
-import { ICurrentWeather } from '../types/interfaces/iCurrentWeather';
-import { IOption } from '../types/interfaces/iOption';
+import { PagePosition } from '../types/enums/swipeDirection';
 
 const Pages: FC = () => {
   const [city, setCity] = useState<IOption | undefined>(undefined);
@@ -22,8 +22,6 @@ const Pages: FC = () => {
   const swipeRef = useRef<number | null>(null);
   const disableSwipeRef = useRef<HTMLDivElement>(null);
 
-  console.log('s', disableSwipeRef.current?.id);
-
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
@@ -35,6 +33,7 @@ const Pages: FC = () => {
 
   useEffect(() => {
     if (!coords) return;
+
     axios
       .get('https://api.openweathermap.org/data/2.5/weather', {
         params: {
@@ -55,21 +54,43 @@ const Pages: FC = () => {
   useEffect(() => {
     switch (currentPage) {
       case 'search':
-        setTransiton(100);
+        setTransiton(PagePosition.LEFT);
         break;
 
       case 'daily':
-        setTransiton(0);
+        setTransiton(PagePosition.CENTER);
         break;
 
       case 'webcams':
-        setTransiton(-100);
+        setTransiton(PagePosition.RIGHT);
         break;
 
       default:
         break;
     }
   }, [currentPage]);
+
+  const swipeRight = (): void => {
+    swipeRef.current = 0;
+
+    setTransiton((prev) => {
+      const swipeValue = prev - 100;
+
+      setSearchParams(`currentPage=${pages.find((page) => page.position === swipeValue)?.name}`);
+      return swipeValue;
+    });
+  };
+
+  const swipeLeft = (): void => {
+    swipeRef.current = 0;
+
+    setTransiton((prev) => {
+      const swipeValue = prev + 100;
+
+      setSearchParams(`currentPage=${pages.find((page) => page.position === swipeValue)?.name}`);
+      return swipeValue;
+    });
+  };
 
   const onTouchStart = (e: TouchEvent<HTMLDivElement>): void => {
     swipeRef.current = e.targetTouches[0].clientX;
@@ -81,30 +102,18 @@ const Pages: FC = () => {
     const scrollRight = swipeRef.current && swipeRef.current - swipeEndPosition <= -150;
 
     const isScrollRightAvailable = scrollLeft && transition !== pages.at(-1)?.position
-     && !disableSwipeRef.current?.contains(e.target);
+     && !disableSwipeRef.current?.contains(e.target as HTMLDivElement);
 
-    const isScrollLeftAvailable = scrollRight && transition !== pages.at(0)?.position && !disableSwipeRef.current?.contains(e.target);
+    const isScrollLeftAvailable = scrollRight
+    && transition !== pages.at(0)?.position
+    && !disableSwipeRef.current?.contains(e.target as HTMLDivElement);
 
     if (isScrollRightAvailable) {
-      swipeRef.current = 0;
-
-      setTransiton((prev) => {
-        const swipeValue = prev - 100;
-
-        setSearchParams(`currentPage=${pages.find((page) => page.position === swipeValue)?.name}`);
-        return swipeValue;
-      });
+      swipeRight();
     }
 
     if (isScrollLeftAvailable) {
-      swipeRef.current = 0;
-
-      setTransiton((prev) => {
-        const swipeValue = prev + 100;
-
-        setSearchParams(`currentPage=${pages.find((page) => page.position === swipeValue)?.name}`);
-        return swipeValue;
-      });
+      swipeLeft();
     }
   };
 
@@ -114,7 +123,7 @@ const Pages: FC = () => {
 
   const swipeToSearchPage = () => {
     setSearchParams('currentPage=search');
-    setTransiton(100);
+    setTransiton(PagePosition.LEFT);
   };
 
   const transitionStyle: CSSProperties = {
@@ -127,7 +136,7 @@ const Pages: FC = () => {
   return (
     <div>
       <Header pages={pages} onSearchClick={swipeToSearchPage} temperature={currentWeather?.temp} />
-      <div
+      <main
         className={styles.wrap}
         style={transitionStyle}
         onTouchStart={onTouchStart}
@@ -135,18 +144,20 @@ const Pages: FC = () => {
       >
         {
           pages.map((page) => (
-            <div className={styles.page} style={pagePositionStyle(page.position)}>
+            <section className={styles.page} style={pagePositionStyle(page.position)}>
               {page.component({
                 coords,
                 city,
                 currentWeather,
                 onCitySelect: selectCity,
                 ref: disableSwipeRef,
+                onSwipeLeftButton: swipeLeft,
+                onSwipeRightButton: swipeRight,
               })}
-            </div>
+            </section>
           ))
         }
-      </div>
+      </main>
     </div>
   );
 };
