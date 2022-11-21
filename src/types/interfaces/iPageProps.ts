@@ -1,4 +1,4 @@
-import { RefObject } from 'react';
+import type { RefObject } from 'react';
 import type { ICoords } from './iCoords';
 import type { ICurrentWeather } from './iCurrentWeather';
 

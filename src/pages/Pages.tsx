@@ -4,9 +4,9 @@ import { Header } from '../components/Header/Header';
 import { pages } from './pagesVariables';
 import type { ICoords } from '../types/interfaces/iCoords';
 import type { ICurrentWeather } from '../types/interfaces/iCurrentWeather';
-import styles from './Pages.module.scss';
 import { PagePosition } from '../types/enums/swipeDirection';
 import { api } from '../api/mainApi';
+import styles from './Pages.module.scss';
 
 const Pages: FC = () => {
   const [city, setCity] = useState<string>('');
@@ -135,7 +135,11 @@ const Pages: FC = () => {
       >
         {
           pages.map((page) => (
-            <section className={styles.page} style={pagePositionStyle(page.position)}>
+            <section
+              key={page.name}
+              className={styles.page}
+              style={pagePositionStyle(page.position)}
+            >
               {page.component({
                 coords,
                 city,

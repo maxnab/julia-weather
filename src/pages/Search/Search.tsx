@@ -51,7 +51,7 @@ const Search: FC<Props> = ({
             ? (
               <div className={styles.list}>
                 {citiesList.map((cityOption) => (
-                  <Button>
+                  <Button key={cityOption.id}>
                     <button
                       type="button"
                       onClick={() => selectCity(cityOption)}

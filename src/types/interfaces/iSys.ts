@@ -2,4 +2,4 @@ interface ISys {
     pod: string;
   }
 
-export { ISys };
+export type { ISys };

@@ -2,4 +2,4 @@ interface IResponse<T> {
     data: T
 }
 
-export { IResponse };
+export type { IResponse };
