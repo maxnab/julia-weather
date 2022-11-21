@@ -8,7 +8,7 @@ import type { IHourlyWeatherResponse } from '../types/interfaces/iHourlyWeatherR
 import type { IAllWebcams, IWebcam } from '../types/interfaces/iWebcam';
 import type { IWebcamResponse } from '../types/interfaces/iWebcamResponse';
 
-const { _WINDY_API_KEY, _OPEN_WEATHER_MAP_API_KEY } = import.meta.env;
+const { ENV_WINDY_API_KEY, ENV_OPEN_WEATHER_MAP_API_KEY } = import.meta.env;
 
 const geocodingUrl = 'https://geocoding-api.open-meteo.com/v1/search';
 const openWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
@@ -26,7 +26,7 @@ const api = {
           lat: latitude,
           lon: longitude,
           units: 'metric',
-          appid: _OPEN_WEATHER_MAP_API_KEY,
+          appid: ENV_OPEN_WEATHER_MAP_API_KEY,
         },
       });
 
@@ -48,7 +48,7 @@ const api = {
           lat: latitude,
           lon: longitude,
           units: 'metric',
-          appid: _OPEN_WEATHER_MAP_API_KEY,
+          appid: ENV_OPEN_WEATHER_MAP_API_KEY,
         },
       });
 
@@ -73,7 +73,7 @@ const api = {
   ): Promise<[IAllWebcams, IWebcam | undefined]> {
     const { data } = await axios.get<IWebcamResponse>(this.getWindyUrl(latitude, longitude), {
       params: {
-        key: _WINDY_API_KEY,
+        key: ENV_WINDY_API_KEY,
         show: 'webcams:player',
       },
     });

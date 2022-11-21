@@ -8,7 +8,7 @@ import * as dns from 'dns';
 
 dns.setDefaultResultOrder('verbatim');
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(() => {
   const config: UserConfig = {
     plugins: [
       checker({
@@ -24,14 +24,9 @@ export default defineConfig(({ mode }) => {
       react(),
     ],
     envDir: 'env',
-    envPrefix: '_',
+    envPrefix: 'ENV_',
     build: {
       outDir: 'dist',
-      // rollupOptions: {
-      //   output: {
-      //     chunkFileNames: 'chunks/[name].[hash].js',
-      //   },
-      // },
     },
     server: {
       host: 'localhost',
