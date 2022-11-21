@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import cn from 'classnames';
 import { useSearchParams } from 'react-router-dom';
-import searchIcon from '../../assets/icons/search.svg';
-import menuIcon from '../../assets/icons/menu.svg';
 import styles from './Header.module.scss';
 import { getColor } from '../../functions/getColor';
 import { IPage } from '../../types/interfaces/iPage';
@@ -41,7 +39,7 @@ const Header: FC<Props> = ({ pages, onSearchClick, temperature }) => {
   return (
     <header className={styles.wrap} style={backgroundStyle}>
       <button type="button" onClick={handleSearchClick}>
-        <img src={searchIcon} alt="search" />
+        <img src="assets/icons/search.svg" alt="search" />
       </button>
       <ul className={styles.pagination}>
         {pages.map((page) => (
@@ -61,7 +59,7 @@ const Header: FC<Props> = ({ pages, onSearchClick, temperature }) => {
         )}
       >
         <button type="button">
-          <img src={menuIcon} alt="menu" />
+          <img src="assets/icons/menu.svg" alt="menu" />
         </button>
       </Tooltip>
     </header>

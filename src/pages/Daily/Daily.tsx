@@ -57,7 +57,7 @@ const Daily = forwardRef<HTMLDivElement, Props>(({
           <span className={styles['current-city-date']}>{format(Date.now(), 'EEE MMM dd')}</span>
         </div>
         <div className={styles['current-weather']}>
-          <img src={`/src/assets/weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
+          <img src={`assets/weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
           <div className={styles['current-weather-info']}>
             <span className={styles['current-weather-info-temperature']}>
               {Math.round(currentWeather.temp)}
@@ -71,7 +71,7 @@ const Daily = forwardRef<HTMLDivElement, Props>(({
         <div>
           <WeatherLine name="wind" value={`${currentWeather.speed} ${units[selectedUnit].wind}`} />
           <WeatherLine name="humidity" value={`${currentWeather.humidity} ${units[selectedUnit].humidity}`} />
-          <WeatherLine name="clouds" value={`${currentWeather.clouds} ${units[selectedUnit].clouds}`} />
+          <WeatherLine name="cloud" value={`${currentWeather.clouds} ${units[selectedUnit].clouds}`} />
         </div>
         <PeriodSelector />
         <Line ref={ref} weather={cityWeather} />

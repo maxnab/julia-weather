@@ -26,7 +26,7 @@ export default defineConfig(({ mode }) => {
     envDir: 'env',
     envPrefix: '_',
     build: {
-      outDir: `build_${mode}`,
+      outDir: 'dist',
       // rollupOptions: {
       //   output: {
       //     chunkFileNames: 'chunks/[name].[hash].js',

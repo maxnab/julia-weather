@@ -2,8 +2,6 @@ import React from 'react';
 import type { FC, ReactNode } from 'react';
 import { getColor } from '../../../functions/getColor';
 import styles from './Page.module.scss';
-import arrowLeft from '../../../assets/icons/arrow-left-circle.svg';
-import arrowRight from '../../../assets/icons/arrow-right-circle.svg';
 
 interface Props {
   children: ReactNode;
@@ -27,13 +25,13 @@ const Page: FC<Props> = ({ children, temperature, onSwipeLeftButton, onSwipeRigh
     >
       {onSwipeLeftButton ? (
         <button type="button" className={styles.arrow} onClick={onSwipeLeftButton}>
-          <img src={arrowLeft} alt="arrow left" />
+          <img src="assets/icons/arrow-left-circle.svg" alt="arrow left" />
         </button>
       ) : <div />}
       {children}
       {onSwipeRightButton ? (
         <button type="button" className={styles.arrow} onClick={onSwipeRightButton}>
-          <img src={arrowRight} alt="arrow right" />
+          <img src="assets/icons/arrow-right-circle.svg" alt="arrow right" />
         </button>
       ) : <div />}
     </div>
