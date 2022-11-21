@@ -1,16 +1,15 @@
 import React, { FC, useState, useRef, TouchEvent, useEffect, CSSProperties } from 'react';
-import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
 import { Header } from '../components/Header/Header';
 import { pages } from './pagesVariables';
 import type { ICoords } from '../types/interfaces/iCoords';
 import type { ICurrentWeather } from '../types/interfaces/iCurrentWeather';
-import type { IOption } from '../types/interfaces/iOption';
 import styles from './Pages.module.scss';
 import { PagePosition } from '../types/enums/swipeDirection';
+import { api } from '../api/mainApi';
 
 const Pages: FC = () => {
-  const [city, setCity] = useState<IOption | undefined>(undefined);
+  const [city, setCity] = useState<string>('');
   const [currentWeather, setCurrentWeather] = useState<ICurrentWeather | undefined>(undefined);
   const [coords, setCoords] = useState<ICoords | undefined>(undefined);
   const [transition, setTransiton] = useState<number>(0);
@@ -34,21 +33,13 @@ const Pages: FC = () => {
   useEffect(() => {
     if (!coords) return;
 
-    axios
-      .get('https://api.openweathermap.org/data/2.5/weather', {
-        params: {
-          lat: coords.latitude,
-          lon: coords.longitude,
-          units: 'metric',
-          appid: '7eec0e6761b704245b20f20fb368b214',
-        },
-      })
-      .then(({ data }) => {
-        setCity({ label: data.name, value: data.name });
-        setCurrentWeather({
-          ...data.main, ...data.weather[0], ...data.wind, clouds: data.clouds.all,
-        });
-      });
+    const fetchData = async () => {
+      const [name, weather] = await api.getWeather(coords.latitude, coords.longitude);
+      setCity(name);
+      setCurrentWeather(weather);
+    };
+
+    fetchData();
   }, [coords?.latitude, coords?.longitude]);
 
   useEffect(() => {

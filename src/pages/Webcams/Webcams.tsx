@@ -1,11 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
-import axios from 'axios';
-import styles from './Webcams.module.scss';
-import type { ICoords } from '../../types/interfaces/iCoords';
-import type { IAllWebcams, IWebcam } from '../../types/interfaces/iWebcam';
-import type { IWebcamResponse } from '../../types/interfaces/iWebcamResponse';
+import { api } from '../../api/mainApi';
 import { Content } from '../../components/wrappers/Content/Content';
 import { Page } from '../../components/wrappers/Page/Page';
+import type { ICoords } from '../../types/interfaces/iCoords';
+import type { IAllWebcams, IWebcam } from '../../types/interfaces/iWebcam';
+import styles from './Webcams.module.scss';
 
 interface Props {
   temperature?: number;
@@ -20,12 +19,13 @@ const Webcams: FC<Props> = ({ coords, temperature, onSwipeLeftButton }) => {
   useEffect(() => {
     if (!coords) return;
 
-    axios.get<IWebcamResponse>(`https://api.windy.com/api/webcams/v2/list/nearby=${coords.latitude},${coords.longitude},15?key=1M7CwWRJiJBt9ktm6GSBtXw06OJ6QZGM&show=webcams:player`).then(({ data }) => {
-      const { webcams } = data.result;
-      const availableCam = webcams.find((cam) => cam.player.live.available);
+    const fetchData = async () => {
+      const [webcams, availableCam] = await api.getWebCams(coords.latitude, coords.longitude);
       setAllWebcams(webcams);
       setActiveCam(availableCam);
-    });
+    };
+
+    fetchData();
   }, [coords?.latitude, coords?.longitude]);
 
   const selectCurrentCam = (cam: IWebcam): void => {

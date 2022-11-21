@@ -1,23 +1,22 @@
-import React, { FC, forwardRef, useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import format from 'date-fns/format';
-import axios from 'axios';
-import styles from './Daily.module.scss';
+import { Content } from '../../components/wrappers/Content/Content';
+import { Page } from '../../components/wrappers/Page/Page';
+import { api } from '../../api/mainApi';
 import { WeatherLine } from '../../components/Block/Block';
 import { PeriodSelector } from '../../components/PeriodSelector/PeriodSelector';
 import { Line } from '../../components/Line/Line';
 import { units } from '../../variables/units';
-import type { IOption } from '../../types/interfaces/iOption';
 import type { IHourlyWeather } from '../../types/interfaces/iHourlyWeather';
 import type { ICurrentWeather } from '../../types/interfaces/iCurrentWeather';
 import type { ICoords } from '../../types/interfaces/iCoords';
-import { Content } from '../../components/wrappers/Content/Content';
-import { Page } from '../../components/wrappers/Page/Page';
+import styles from './Daily.module.scss';
 
 const selectedUnit = 'metric';
 
 interface Props {
   currentWeather?: ICurrentWeather;
-  city?: IOption;
+  city?: string;
   coords?: ICoords;
   onSwipeLeftButton?: () => void;
   onSwipeRightButton?: () => void;
@@ -35,19 +34,12 @@ const Daily = forwardRef<HTMLDivElement, Props>(({
   useEffect(() => {
     if (!coords) return;
 
-    axios
-      .get('https://api.openweathermap.org/data/2.5/forecast', {
-        params: {
-          lat: coords.latitude,
-          lon: coords.longitude,
-          units: 'metric',
-          appid: '7eec0e6761b704245b20f20fb368b214',
-        },
-      })
-      .then(({ data }) => {
-        const weatherByPeriod = data.list.slice(0, 8);
-        setCityWeather(weatherByPeriod);
-      });
+    const fetchData = async () => {
+      const weatherByPeriod = await api.getForecast(coords.latitude, coords.longitude);
+      setCityWeather(weatherByPeriod);
+    };
+
+    fetchData();
   }, [coords?.latitude, coords?.longitude]);
 
   if (!currentWeather) return null;
@@ -61,7 +53,7 @@ const Daily = forwardRef<HTMLDivElement, Props>(({
     >
       <Content>
         <div className={styles['current-city']}>
-          <span className={styles['current-city-title']}>{city.label}</span>
+          <span className={styles['current-city-title']}>{city}</span>
           <span className={styles['current-city-date']}>{format(Date.now(), 'EEE MMM dd')}</span>
         </div>
         <div className={styles['current-weather']}>

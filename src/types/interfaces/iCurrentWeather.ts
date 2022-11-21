@@ -9,9 +9,12 @@ interface ICurrentWeather {
     temp_min: number;
     description: string;
     icon: string;
-    speed: string;
-    precipitation: string;
-    clouds: string;
+    id: number;
+    main:string
+    deg: number;
+    gust: number;
+    speed: number;
+    clouds: number;
 }
 
 export type { ICurrentWeather };

@@ -1,8 +1,11 @@
 import type { ICity } from './iCity';
+import type { IResponse } from './iResponse';
 
-interface ICityResponse {
-    generationtime_ms: number;
-    results: ICity[];
-  }
+interface ICityData {
+  generationtime_ms: number;
+  results: ICity[];
+}
+
+type ICityResponse = IResponse<ICityData>;
 
 export type { ICityResponse };

@@ -1,12 +1,11 @@
-import axios, { AxiosResponse } from 'axios';
 import React, { ChangeEvent, FC, useState } from 'react';
 import { Button } from '../../components/wrappers/Button/Button';
 import { ICoords } from '../../types/interfaces/iCoords';
 import { ICity } from '../../types/interfaces/iCity';
-import { ICityResponse } from '../../types/interfaces/iCityResponse';
 import styles from './Search.module.scss';
 import { Content } from '../../components/wrappers/Content/Content';
 import { Page } from '../../components/wrappers/Page/Page';
+import { api } from '../../api/mainApi';
 
 interface Props {
   temperature?: number;
@@ -22,16 +21,15 @@ const Search: FC<Props> = ({
   const [city, setCity] = useState<string>('');
   const [citiesList, setCitiesList] = useState<ICity[]>([]);
 
-  const handleSearch = (e: ChangeEvent<HTMLInputElement>): void => {
+  const handleSearch = async (e: ChangeEvent<HTMLInputElement>): Promise<void> => {
     setCity(e.target.value);
-    axios.get<string, AxiosResponse<ICityResponse>>(`https://geocoding-api.open-meteo.com/v1/search?name=${city}`).then(({ data }) => {
-      if (!data.results) return;
+    const response = await api.getCities(city);
 
-      setCitiesList(data.results);
-    });
+    if (!response) return;
+    setCitiesList(response);
   };
 
-  const getCityLabel = (name: string, country: string) => `${name}, ${country}`;
+  const getCityLabel = (name: string, country: string): string => `${name}, ${country}`;
 
   return (
     <Page
