@@ -1,11 +1,11 @@
 import React, { ChangeEvent, FC, useState } from 'react';
+import { api } from '../../api/mainApi';
 import { Button } from '../../components/wrappers/Button/Button';
-import { ICoords } from '../../types/interfaces/iCoords';
-import { ICity } from '../../types/interfaces/iCity';
-import styles from './Search.module.scss';
 import { Content } from '../../components/wrappers/Content/Content';
 import { Page } from '../../components/wrappers/Page/Page';
-import { api } from '../../api/mainApi';
+import type { ICoords } from '../../types/interfaces/iCoords';
+import type { ICity } from '../../types/interfaces/iCity';
+import styles from './Search.module.scss';
 
 interface Props {
   temperature?: number;
@@ -31,6 +31,14 @@ const Search: FC<Props> = ({
 
   const getCityLabel = (name: string, country: string): string => `${name}, ${country}`;
 
+  const selectCity = (cityOption: ICity): void => {
+    onCitySelect({
+      latitude: cityOption.latitude,
+      longitude: cityOption.longitude,
+      cityName: cityOption.name,
+    });
+  };
+
   return (
     <Page
       temperature={temperature}
@@ -46,9 +54,7 @@ const Search: FC<Props> = ({
                   <Button>
                     <button
                       type="button"
-                      onClick={() => onCitySelect({ latitude: cityOption.latitude,
-                        longitude: cityOption.longitude,
-                        cityName: cityOption.name })}
+                      onClick={() => selectCity(cityOption)}
                     >
                       {getCityLabel(cityOption.name, cityOption.country)}
                     </button>

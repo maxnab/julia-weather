@@ -6,6 +6,7 @@ import menuIcon from '../../assets/icons/menu.svg';
 import styles from './Header.module.scss';
 import { getColor } from '../../functions/getColor';
 import { IPage } from '../../types/interfaces/iPage';
+import { Tooltip } from '../Tooltip/Tooltip';
 
 interface Props {
   temperature?: number;
@@ -47,9 +48,22 @@ const Header: FC<Props> = ({ pages, onSearchClick, temperature }) => {
           <li key={page.name} className={getDotClassName(page.name)} />
         ))}
       </ul>
-      <button type="button">
-        <img src={menuIcon} alt="menu" />
-      </button>
+      <Tooltip
+        direction="left-bottom"
+        content={(
+          <pre>
+            Made with love
+            <br />
+            and named after Julia Sichkareva
+            <br />
+            ⊂ﾟU┬────┬~
+          </pre>
+        )}
+      >
+        <button type="button">
+          <img src={menuIcon} alt="menu" />
+        </button>
+      </Tooltip>
     </header>
   );
 };

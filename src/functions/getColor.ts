@@ -4,6 +4,8 @@ import { checkColorRange } from './checkColorRange';
 type TTempToColorFunc = (t: number, min: number, max: number, mode?: string) => IColor
 
 const getColor: TTempToColorFunc = (t, min, max, mode) => {
+  let temp = t;
+
   if (!Number.isFinite(t) || !Number.isFinite(min) || !Number.isFinite(max)) {
     throw new TypeError('function tempToColor() expected only numbers');
   }
@@ -13,12 +15,12 @@ const getColor: TTempToColorFunc = (t, min, max, mode) => {
   }
 
   if (t < min) {
-    t = min;
+    temp = min;
   } else if (t > max) {
-    t = max;
+    temp = max;
   }
 
-  const nT = (t - min) / (max - min);
+  const nT = (temp - min) / (max - min);
   let rValue = 255;
   let gValue = 255;
   let bValue = 255;

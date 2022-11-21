@@ -16,8 +16,12 @@
     margin-right: 10px;
     min-width: 64px;
     height: 112px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgb(255 255 255 / 30%);
     justify-content: space-around;
+
+    &-first {
+      background: rgb(255 255 255 / 70%);
+    }
 
 
     &-time {
@@ -42,6 +46,7 @@
       padding: 3px;
       width: 24px;
       height: 24px;
+
       img {
         max-width: 50px;
         max-height: 50px;

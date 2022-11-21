@@ -29,13 +29,13 @@ const Page: FC<Props> = ({ children, temperature, onSwipeLeftButton, onSwipeRigh
         <button type="button" className={styles.arrow} onClick={onSwipeLeftButton}>
           <img src={arrowLeft} alt="arrow left" />
         </button>
-      ) : null}
+      ) : <div />}
       {children}
       {onSwipeRightButton ? (
         <button type="button" className={styles.arrow} onClick={onSwipeRightButton}>
           <img src={arrowRight} alt="arrow right" />
         </button>
-      ) : null}
+      ) : <div />}
     </div>
   );
 };

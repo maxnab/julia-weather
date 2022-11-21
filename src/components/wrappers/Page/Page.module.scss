@@ -1,6 +1,6 @@
 .wrap {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   overflow: auto;
   width: 100vw;
   min-height: calc(100vh - 48px);
@@ -12,6 +12,10 @@
 }
 
 @media screen and (max-width: 768px) {
+  .wrap {
+    justify-content: center;
+  }
+  
   .arrow {
     display: none;
   }
