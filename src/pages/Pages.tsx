@@ -84,10 +84,14 @@ const Pages: FC = () => {
   };
 
   const onTouchStart = (e: TouchEvent<HTMLDivElement>): void => {
+    e.stopPropagation();
+    e.preventDefault();
     swipeRef.current = e.targetTouches[0].clientX;
   };
 
   const onTouchEnd = (e: TouchEvent<HTMLDivElement>): void => {
+    e.stopPropagation();
+    e.preventDefault();
     const swipeEndPosition = e.changedTouches[0].clientX;
     const scrollLeft = swipeRef.current && swipeRef.current - swipeEndPosition >= 150;
     const scrollRight = swipeRef.current && swipeRef.current - swipeEndPosition <= -150;
