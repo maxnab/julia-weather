@@ -2,9 +2,11 @@ import React from 'react';
 import type { FC, ReactNode } from 'react';
 import { getColor } from '../../../functions/getColor';
 import styles from './Page.module.scss';
+import { Loader } from '../../Loader/Loader';
 
 interface Props {
   children: ReactNode;
+  isLoading: boolean;
   temperature?: number;
   onSwipeLeftButton?: () => void;
   onSwipeRightButton?: () => void;
@@ -12,6 +14,7 @@ interface Props {
 
 const Page: FC<Props> = ({
   children,
+  isLoading,
   temperature,
   onSwipeLeftButton,
   onSwipeRightButton,
@@ -33,7 +36,7 @@ const Page: FC<Props> = ({
           <img src="assets/icons/arrow-left-circle.svg" alt="arrow left" />
         </button>
       ) : <div />}
-      {children}
+      {isLoading ? <Loader /> : children}
       {onSwipeRightButton ? (
         <button type="button" className={styles.arrow} onClick={onSwipeRightButton}>
           <img src="assets/icons/arrow-right-circle.svg" alt="arrow right" />

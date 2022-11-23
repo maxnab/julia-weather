@@ -1,4 +1,6 @@
 .wrap {
-    width: 100%;
-    max-width: 768px;
+  width: 100%;
+  max-width: 768px;
+  height: calc(90vh - 36px);
+  overflow: auto;
 }

@@ -8,12 +8,14 @@ import type { ICity } from '../../types/interfaces/iCity';
 import styles from './Search.module.scss';
 
 interface Props {
+  isLoading: boolean;
   temperature?: number;
   onCitySelect: (city: ICoords) => void;
   onSwipeRightButton?: () => void;
 }
 
 const Search: FC<Props> = ({
+  isLoading,
   onCitySelect,
   temperature,
   onSwipeRightButton,
@@ -41,6 +43,7 @@ const Search: FC<Props> = ({
 
   return (
     <Page
+      isLoading={isLoading}
       temperature={temperature}
       onSwipeRightButton={onSwipeRightButton}
     >

@@ -1,9 +1,10 @@
 .wrap {
     display: flex;
-    height: 48px;
+    height: 10vh;
     width: 100vw;
     padding: 15px;
     justify-content: space-between;
+    align-items: center;
 }
 
 .pagination {

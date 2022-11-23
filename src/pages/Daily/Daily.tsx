@@ -15,6 +15,7 @@ import styles from './Daily.module.scss';
 const selectedUnit = 'metric';
 
 interface Props {
+  isLoading: boolean;
   currentWeather?: ICurrentWeather;
   city?: string;
   coords?: ICoords;
@@ -23,6 +24,7 @@ interface Props {
 }
 
 const Daily = forwardRef<HTMLDivElement, Props>(({
+  isLoading,
   coords,
   city,
   currentWeather,
@@ -47,6 +49,7 @@ const Daily = forwardRef<HTMLDivElement, Props>(({
 
   return (
     <Page
+      isLoading={isLoading}
       temperature={currentWeather.temp}
       onSwipeLeftButton={onSwipeLeftButton}
       onSwipeRightButton={onSwipeRightButton}

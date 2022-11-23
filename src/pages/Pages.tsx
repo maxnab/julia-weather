@@ -1,14 +1,17 @@
 import React, { FC, useState, useRef, TouchEvent, useEffect, CSSProperties } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { api } from '../api/mainApi';
 import { Header } from '../components/Header/Header';
 import { pages } from './pagesVariables';
+import { PagePosition } from '../types/enums/swipeDirection';
 import type { ICoords } from '../types/interfaces/iCoords';
 import type { ICurrentWeather } from '../types/interfaces/iCurrentWeather';
-import { PagePosition } from '../types/enums/swipeDirection';
-import { api } from '../api/mainApi';
 import styles from './Pages.module.scss';
 
+const defaulCity = { latitude: 55.751244, longitude: 37.618423, cityName: 'Moscow' };
+
 const Pages: FC = () => {
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [city, setCity] = useState<string>('');
   const [currentWeather, setCurrentWeather] = useState<ICurrentWeather | undefined>(undefined);
   const [coords, setCoords] = useState<ICoords | undefined>(undefined);
@@ -22,13 +25,18 @@ const Pages: FC = () => {
   const disableSwipeRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (currentPage === 'undefined' || !currentPage) {
+      setTransiton(PagePosition.CENTER);
+      setSearchParams('currentPage=daily');
+    }
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((location) => {
         const { latitude, longitude } = location.coords;
         setCoords({ latitude, longitude, cityName: '' });
       });
     } else {
-      setCoords({ latitude: 0, longitude: 0, cityName: '' });
+      setCoords(defaulCity);
     }
   }, []);
 
@@ -39,6 +47,7 @@ const Pages: FC = () => {
       const [name, weather] = await api.getWeather(coords.latitude, coords.longitude);
       setCity(name);
       setCurrentWeather(weather);
+      setLoading(false);
     };
 
     fetchData();
@@ -59,12 +68,12 @@ const Pages: FC = () => {
         break;
 
       default:
+        setTransiton(PagePosition.CENTER);
         break;
     }
   }, [currentPage]);
 
   const swipeRight = (): void => {
-    console.log('swipeRight');
     swipeRef.current = 0;
 
     setTransiton((prev) => {
@@ -76,8 +85,6 @@ const Pages: FC = () => {
   };
 
   const swipeLeft = (): void => {
-    console.log('swipeLeft');
-
     swipeRef.current = 0;
 
     setTransiton((prev) => {
@@ -89,14 +96,10 @@ const Pages: FC = () => {
   };
 
   const onTouchStart = (e: TouchEvent<HTMLDivElement>): void => {
-    console.log('onTouchStart', e.targetTouches[0].clientX);
-
     swipeRef.current = e.targetTouches[0].clientX;
   };
 
   const onTouchEnd = (e: TouchEvent<HTMLDivElement>): void => {
-    console.log('onTouchEnd', e.targetTouches);
-
     const swipeEndPosition = e.changedTouches[0].clientX;
     const scrollLeft = swipeRef.current && swipeRef.current - swipeEndPosition >= 150;
     const scrollRight = swipeRef.current && swipeRef.current - swipeEndPosition <= -150;
@@ -117,11 +120,11 @@ const Pages: FC = () => {
     }
   };
 
-  const selectCity = (cityCoords: ICoords) => {
+  const selectCity = (cityCoords: ICoords): void => {
     setCoords(cityCoords);
   };
 
-  const swipeToSearchPage = () => {
+  const swipeToSearchPage = (): void => {
     setSearchParams('currentPage=search');
     setTransiton(PagePosition.LEFT);
   };
@@ -131,11 +134,13 @@ const Pages: FC = () => {
     transition: 'all .300s ease-in',
   };
 
-  const pagePositionStyle = (position: number): CSSProperties => ({ right: `${position}vw` });
-
   return (
     <div className={styles.layout}>
-      <Header pages={pages} onSearchClick={swipeToSearchPage} temperature={currentWeather?.temp} />
+      <Header
+        pages={pages}
+        onSearchClick={swipeToSearchPage}
+        temperature={currentWeather?.temp}
+      />
       <main
         className={styles.wrap}
         style={transitionStyle}
@@ -147,12 +152,12 @@ const Pages: FC = () => {
             <section
               key={page.name}
               className={styles.page}
-              style={pagePositionStyle(page.position)}
             >
               {page.component({
                 coords,
                 city,
                 currentWeather,
+                isLoading,
                 onCitySelect: selectCity,
                 ref: disableSwipeRef,
                 onSwipeLeftButton: swipeLeft,

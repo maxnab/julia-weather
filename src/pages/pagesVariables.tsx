@@ -11,6 +11,7 @@ const pages: IPage[] = [
     position: PagePosition.LEFT,
     component: (props) => (
       <Search
+        isLoading={props.isLoading}
         onCitySelect={props.onCitySelect}
         temperature={props.currentWeather?.temp}
         onSwipeRightButton={props?.onSwipeRightButton}
@@ -23,6 +24,7 @@ const pages: IPage[] = [
     component: (props) => (
       <Daily
         ref={props.ref}
+        isLoading={props.isLoading}
         coords={props.coords}
         city={props.city}
         currentWeather={props.currentWeather}
@@ -37,6 +39,7 @@ const pages: IPage[] = [
     component: (props) => (
       <Webcams
         coords={props.coords}
+        isLoading={props.isLoading}
         temperature={props.currentWeather?.temp}
         onSwipeLeftButton={props?.onSwipeLeftButton}
       />

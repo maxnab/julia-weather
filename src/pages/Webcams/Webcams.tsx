@@ -7,12 +7,14 @@ import type { IAllWebcams, IWebcam } from '../../types/interfaces/iWebcam';
 import styles from './Webcams.module.scss';
 
 interface Props {
+  isLoading: boolean;
   temperature?: number;
   coords?: ICoords;
   onSwipeLeftButton?: () => void;
 }
 
 const Webcams: FC<Props> = ({
+  isLoading,
   coords,
   temperature,
   onSwipeLeftButton,
@@ -38,6 +40,7 @@ const Webcams: FC<Props> = ({
 
   return (
     <Page
+      isLoading={isLoading}
       temperature={temperature}
       onSwipeLeftButton={onSwipeLeftButton}
     >

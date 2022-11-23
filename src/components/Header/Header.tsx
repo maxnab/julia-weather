@@ -46,22 +46,22 @@ const Header: FC<Props> = ({ pages, onSearchClick, temperature }) => {
           <li key={page.name} className={getDotClassName(page.name)} />
         ))}
       </ul>
-      <Tooltip
-        direction="left-bottom"
-        content={(
-          <pre>
-            Made with love
-            <br />
-            and named after Julia Sichkareva
-            <br />
-            ⊂ﾟU┬────┬~
-          </pre>
+      <button type="button">
+        <Tooltip
+          direction="left-bottom"
+          content={(
+            <pre>
+              Made with love
+              <br />
+              and named after Julia Sichkareva
+              <br />
+              ⊂ﾟU┬────┬~
+            </pre>
         )}
-      >
-        <button type="button">
+        >
           <img src="assets/icons/menu.svg" alt="menu" />
-        </button>
-      </Tooltip>
+        </Tooltip>
+      </button>
     </header>
   );
 };

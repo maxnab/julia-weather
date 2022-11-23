@@ -12,7 +12,7 @@ const App: FC = () => (
         <Pages />
     }
     />
-    <Route path="*" element={<Navigate to="/app" replace />} />
+    <Route path="*" element={<Navigate to="/app?currentPage=daily" replace />} />
   </Routes>
 );
 

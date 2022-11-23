@@ -3,6 +3,7 @@ import type { ICoords } from './iCoords';
 import type { ICurrentWeather } from './iCurrentWeather';
 
 interface IPagesProps {
+    isLoading: boolean;
     onCitySelect: (coords: ICoords) => void;
     ref: RefObject<HTMLDivElement>;
     coords?: ICoords;

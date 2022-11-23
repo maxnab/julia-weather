@@ -18,7 +18,10 @@ const Line = forwardRef<HTMLDivElement, Props>(({ weather }, ref) => {
   return (
     <div id="not-swipable" ref={ref} className={styles.daily}>
       {weather.map((day, i) => (
-        <div key={day.id} className={blockWrapClassName(i)}>
+        <div
+          key={day.dt_txt}
+          className={blockWrapClassName(i)}
+        >
           <span className={styles['daily-block-time']}>{getTimeCode(day.dt)}</span>
           <div className={styles['daily-block-code']}>
             <img src={`assets/weather_icons/${day.weather[0].icon}.png`} alt="day.weather[0].day.description" />
