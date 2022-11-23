@@ -27,6 +27,8 @@ const Pages: FC = () => {
         const { latitude, longitude } = location.coords;
         setCoords({ latitude, longitude, cityName: '' });
       });
+    } else {
+      setCoords({ latitude: 0, longitude: 0, cityName: '' });
     }
   }, []);
 
@@ -62,6 +64,7 @@ const Pages: FC = () => {
   }, [currentPage]);
 
   const swipeRight = (): void => {
+    console.log('swipeRight');
     swipeRef.current = 0;
 
     setTransiton((prev) => {
@@ -73,6 +76,8 @@ const Pages: FC = () => {
   };
 
   const swipeLeft = (): void => {
+    console.log('swipeLeft');
+
     swipeRef.current = 0;
 
     setTransiton((prev) => {
@@ -84,14 +89,14 @@ const Pages: FC = () => {
   };
 
   const onTouchStart = (e: TouchEvent<HTMLDivElement>): void => {
-    e.stopPropagation();
-    e.preventDefault();
+    console.log('onTouchStart', e.targetTouches[0].clientX);
+
     swipeRef.current = e.targetTouches[0].clientX;
   };
 
   const onTouchEnd = (e: TouchEvent<HTMLDivElement>): void => {
-    e.stopPropagation();
-    e.preventDefault();
+    console.log('onTouchEnd', e.targetTouches);
+
     const swipeEndPosition = e.changedTouches[0].clientX;
     const scrollLeft = swipeRef.current && swipeRef.current - swipeEndPosition >= 150;
     const scrollRight = swipeRef.current && swipeRef.current - swipeEndPosition <= -150;
@@ -129,7 +134,7 @@ const Pages: FC = () => {
   const pagePositionStyle = (position: number): CSSProperties => ({ right: `${position}vw` });
 
   return (
-    <div>
+    <div className={styles.layout}>
       <Header pages={pages} onSearchClick={swipeToSearchPage} temperature={currentWeather?.temp} />
       <main
         className={styles.wrap}

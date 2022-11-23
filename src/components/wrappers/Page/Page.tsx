@@ -10,7 +10,12 @@ interface Props {
   onSwipeRightButton?: () => void;
 }
 
-const Page: FC<Props> = ({ children, temperature, onSwipeLeftButton, onSwipeRightButton }) => {
+const Page: FC<Props> = ({
+  children,
+  temperature,
+  onSwipeLeftButton,
+  onSwipeRightButton,
+}) => {
   const fromColor = getColor(temperature ?? 25, -30, 40);
   const toColor = getColor(temperature ?? 25, -10, 10);
 

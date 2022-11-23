@@ -1,27 +1,16 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+}
+
 .wrap {
-  position: fixed;
-  z-index: -1;
-  width: 100vw;
+  display: flex;
   height: 100vh;
-  top: 48px;
+  width: 300vw;
 }
 
 .page {
-  position: absolute;
   overflow: auto;
   height: calc(100% - 48px);
 }
 
-.left-page {
-  position: absolute;
-  right: 100vw;
-}
-
-.middle-page {
-  position: absolute;
-}
-
-.right-page {
-  position: absolute;
-  left: 100vw;
-}

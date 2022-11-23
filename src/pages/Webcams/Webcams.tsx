@@ -12,7 +12,11 @@ interface Props {
   onSwipeLeftButton?: () => void;
 }
 
-const Webcams: FC<Props> = ({ coords, temperature, onSwipeLeftButton }) => {
+const Webcams: FC<Props> = ({
+  coords,
+  temperature,
+  onSwipeLeftButton,
+}) => {
   const [allWebcams, setAllWebcams] = useState<IAllWebcams>([]);
   const [activeCam, setActiveCam] = useState<IWebcam | undefined>(undefined);
 
