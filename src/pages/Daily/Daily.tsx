@@ -60,7 +60,7 @@ const Daily = forwardRef<HTMLDivElement, Props>(({
           <span className={styles['current-city-date']}>{format(Date.now(), 'EEE MMM dd')}</span>
         </div>
         <div className={styles['current-weather']}>
-          <img src={`assets/weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
+          <img src={`assets/mini_weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
           <div className={styles['current-weather-info']}>
             <span className={styles['current-weather-info-temperature']}>
               {Math.round(currentWeather.temp)}

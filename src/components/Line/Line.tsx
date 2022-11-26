@@ -24,7 +24,7 @@ const Line = forwardRef<HTMLDivElement, Props>(({ weather }, ref) => {
         >
           <span className={styles['daily-block-time']}>{getTimeCode(day.dt)}</span>
           <div className={styles['daily-block-code']}>
-            <img src={`assets/weather_icons/${day.weather[0].icon}.png`} alt="day.weather[0].day.description" />
+            <img src={`assets/mini_weather_icons/${day.weather[0].icon}.png`} alt="day.weather[0].day.description" />
           </div>
           <span className={styles['daily-block-temp']}>
             {Math.trunc(day.main.temp)}

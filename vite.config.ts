@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import checker from 'vite-plugin-checker';
+import viteCompression from 'vite-plugin-compression';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import type { UserConfig } from 'vite';
 import * as dns from 'dns';
@@ -21,6 +22,7 @@ export default defineConfig(() => {
         },
       }),
       tsconfigPaths(),
+      viteCompression(),
       react(),
     ],
     envDir: 'env',
