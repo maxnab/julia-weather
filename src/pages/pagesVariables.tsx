@@ -1,4 +1,3 @@
-import React from 'react';
 import type { IPage } from '../types/interfaces/iPage';
 import { Daily } from './Daily/Daily';
 import { Webcams } from './Webcams/Webcams';

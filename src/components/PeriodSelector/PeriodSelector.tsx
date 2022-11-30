@@ -1,4 +1,3 @@
-import React from 'react';
 import type { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import styles from './PeriodSelector.module.scss';

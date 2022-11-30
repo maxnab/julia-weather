@@ -1,8 +1,9 @@
-import React, { forwardRef, useEffect, useState } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
 import format from 'date-fns/format';
+import { api } from '@api';
+import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
 import { Content } from '../../components/wrappers/Content/Content';
 import { Page } from '../../components/wrappers/Page/Page';
-import { api } from '../../api/mainApi';
 import { WeatherLine } from '../../components/Block/Block';
 import { PeriodSelector } from '../../components/PeriodSelector/PeriodSelector';
 import { Line } from '../../components/Line/Line';
@@ -60,7 +61,7 @@ const Daily = forwardRef<HTMLDivElement, Props>(({
           <span className={styles['current-city-date']}>{format(Date.now(), 'EEE MMM dd')}</span>
         </div>
         <div className={styles['current-weather']}>
-          <img src={`assets/mini_weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
+          <img src={`assets/weather_icons/${currentWeather.icon}.png`} alt={currentWeather.description} />
           <div className={styles['current-weather-info']}>
             <span className={styles['current-weather-info-temperature']}>
               {Math.round(currentWeather.temp)}

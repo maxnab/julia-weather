@@ -9,33 +9,31 @@ import * as dns from 'dns';
 
 dns.setDefaultResultOrder('verbatim');
 
-export default defineConfig(() => {
-  const config: UserConfig = {
-    plugins: [
-      checker({
-        overlay: {
-          initialIsOpen: false,
-        },
-        typescript: true,
-        eslint: {
-          lintCommand: 'eslint "./src/**/*.{ts,tsx,json}"',
-        },
-      }),
-      tsconfigPaths(),
-      viteCompression(),
-      react(),
-    ],
-    envDir: 'env',
-    envPrefix: 'ENV_',
-    build: {
-      outDir: 'dist',
-    },
-    server: {
-      host: 'localhost',
-      port: 3000,
-      open: '/',
-    },
-  };
+const config: UserConfig = {
+  plugins: [
+    checker({
+      overlay: {
+        initialIsOpen: false,
+      },
+      typescript: true,
+      eslint: {
+        lintCommand: 'eslint "./src/**/*.{ts,tsx,json}"',
+      },
+    }),
+    tsconfigPaths(),
+    viteCompression(),
+    react(),
+  ],
+  envDir: 'env',
+  envPrefix: 'ENV_',
+  build: {
+    outDir: 'dist',
+  },
+  server: {
+    host: 'localhost',
+    port: 3000,
+    open: '/',
+  },
+};
 
-  return config;
-});
+export default defineConfig(() => config);

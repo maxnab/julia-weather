@@ -1,9 +1,12 @@
-import React, { FC, useEffect, useState } from 'react';
-import { api } from '../../api/mainApi';
-import { Content } from '../../components/wrappers/Content/Content';
-import { Page } from '../../components/wrappers/Page/Page';
+import { api } from '@api';
+import { useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
+import { Button } from '@components/Button/Button';
 import type { ICoords } from '../../types/interfaces/iCoords';
 import type { IAllWebcams, IWebcam } from '../../types/interfaces/iWebcam';
+import { Content } from '../../components/wrappers/Content/Content';
+import { Page } from '../../components/wrappers/Page/Page';
 import styles from './Webcams.module.scss';
 
 interface Props {
@@ -54,9 +57,7 @@ const Webcams: FC<Props> = ({
           )}
         <div className={styles['cameras-list']}>
           {allWebcams.map((cam) => (
-            <div key={cam.id} className={styles.wrap}>
-              <button type="button" onClick={(): void => selectCurrentCam(cam)}>{cam.title}</button>
-            </div>
+            <Button key={cam.id} onClick={(): void => selectCurrentCam(cam)}>{cam.title}</Button>
           ))}
         </div>
       </Content>

@@ -1,4 +1,3 @@
-import React from 'react';
 import type { FC, ReactNode } from 'react';
 import { getColor } from '../../../functions/getColor';
 import styles from './Page.module.scss';

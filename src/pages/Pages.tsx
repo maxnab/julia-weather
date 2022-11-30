@@ -1,14 +1,13 @@
-import React, { FC, useState, useRef, TouchEvent, useEffect, CSSProperties } from 'react';
+import { FC, useState, useRef, TouchEvent, useEffect, CSSProperties } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { api } from '../api/mainApi';
+import { api } from '@api';
+import { usePosition } from '@hooks/usePosition';
 import { Header } from '../components/Header/Header';
 import { pages } from './pagesVariables';
 import { PagePosition } from '../types/enums/swipeDirection';
 import type { ICoords } from '../types/interfaces/iCoords';
 import type { ICurrentWeather } from '../types/interfaces/iCurrentWeather';
 import styles from './Pages.module.scss';
-
-const defaulCity = { latitude: 55.751244, longitude: 37.618423, cityName: 'Moscow' };
 
 const Pages: FC = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -17,6 +16,7 @@ const Pages: FC = () => {
   const [coords, setCoords] = useState<ICoords | undefined>(undefined);
   const [transition, setTransiton] = useState<number>(0);
 
+  const { position } = usePosition();
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currentPage = searchParams.get('currentPage');
@@ -30,13 +30,8 @@ const Pages: FC = () => {
       setSearchParams('currentPage=daily');
     }
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((location) => {
-        const { latitude, longitude } = location.coords;
-        setCoords({ latitude, longitude, cityName: '' });
-      });
-    } else {
-      setCoords(defaulCity);
+    if (position) {
+      setCoords({ latitude: position.latitude, longitude: position.longitude });
     }
   }, []);
 

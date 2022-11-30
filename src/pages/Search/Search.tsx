@@ -1,16 +1,22 @@
-import React, { ChangeEvent, FC, useState } from 'react';
-import { api } from '../../api/mainApi';
-import { Button } from '../../components/wrappers/Button/Button';
-import { Content } from '../../components/wrappers/Content/Content';
-import { Page } from '../../components/wrappers/Page/Page';
+import { useState } from 'react';
+import { api } from '@api';
+import type { ChangeEvent, FC } from 'react';
+import { ErrorBoundary } from '@components/ErrorBoundary/ErrorBoundary';
 import type { ICoords } from '../../types/interfaces/iCoords';
 import type { ICity } from '../../types/interfaces/iCity';
+import { Button } from '../../components/Button/Button';
+import { Content } from '../../components/wrappers/Content/Content';
+import { Page } from '../../components/wrappers/Page/Page';
 import styles from './Search.module.scss';
+
+interface ICityOption extends ICoords {
+  cityName: string;
+}
 
 interface Props {
   isLoading: boolean;
   temperature?: number;
-  onCitySelect: (city: ICoords) => void;
+  onCitySelect: (city: ICityOption) => void;
   onSwipeRightButton?: () => void;
 }
 
@@ -54,13 +60,11 @@ const Search: FC<Props> = ({
             ? (
               <div className={styles.list}>
                 {citiesList.map((cityOption) => (
-                  <Button key={cityOption.id}>
-                    <button
-                      type="button"
-                      onClick={() => selectCity(cityOption)}
-                    >
-                      {getCityLabel(cityOption.name, cityOption.country)}
-                    </button>
+                  <Button
+                    key={cityOption.id}
+                    onClick={() => selectCity(cityOption)}
+                  >
+                    {getCityLabel(cityOption.name, cityOption.country)}
                   </Button>
                 ))}
               </div>

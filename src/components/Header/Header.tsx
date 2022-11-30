@@ -1,10 +1,10 @@
-import React, { FC } from 'react';
-import cn from 'classnames';
+import type { FC } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import styles from './Header.module.scss';
+import cn from 'classnames';
 import { getColor } from '../../functions/getColor';
-import { IPage } from '../../types/interfaces/iPage';
 import { Tooltip } from '../Tooltip/Tooltip';
+import type { IPage } from '../../types/interfaces/iPage';
+import styles from './Header.module.scss';
 
 interface Props {
   temperature?: number;

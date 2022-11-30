@@ -1,4 +1,5 @@
-import React, { ReactNode, useState, FC } from 'react';
+import { useState } from 'react';
+import type { ReactNode, FC } from 'react';
 import cn from 'classnames';
 import styles from './Tooltip.module.scss';
 

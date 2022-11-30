@@ -3,12 +3,10 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@app/*": ["./src/*"],
+      "@api": ["./src/api/mainApi.ts"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@interfaces/*": ["./src/types/interfaces/*"],
       "@components/*": ["./src/components/*"],
-      "@pages/*": ["./src/pages/*"],
-      "@utils/*": ["./src/utils/*"],
-      "@api/*": ["./src/utils/api/*"],
-      "@img/*": ["./src/static/image/*"]
     },
     "target": "ESNext",
     "useDefineForClassFields": true,
