@@ -1,0 +1,19 @@
+.wrap {
+  font: {
+    font-family: Inter, sans-serif;
+    style: normal;
+    weight: 400;
+    size: 16px;
+  }
+  width: 100%;
+  color: #303345;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 11px;
+  background: rgb(255 255 255 / 36%);
+  border: 0.5px solid rgb(255 255 255 / 50%);
+  border-radius: 10px;
+}
